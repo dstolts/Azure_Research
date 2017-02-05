@@ -1,0 +1,27 @@
+{
+  "tags": {
+    "allowUnknownTags": true
+  },
+  "opts": {
+    "destination": "./app/docs"
+  },
+  "plugins": [
+    "plugins/markdown"
+  ],
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false,
+    "outputSourceFiles": true,
+    "outputSourcePath": true,
+    "systemName" : "Azure-RCE",
+    "footer" : "",
+    "copyright" : "MIT",
+    "navType" : "vertical",
+    "theme" : "simplex",
+    "linenums" : true,
+    "collapseSymbols" : true,
+    "inverseNav" : true,
+    "highlightTutorialCode": true,
+    "protocol": "html://"
+    }
+}

@@ -1,0 +1,169 @@
+/* css */
+.username{color:white;float:right;}
+.well{font-size:90%;}
+[ng-click],
+[data-ng-click],
+[x-ng-click] {
+    cursor: pointer;
+}
+.page-header {
+border-bottom: 2px solid #000000 !important;
+}
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.table tbody>tr>td.vert-align{
+    vertical-align: middle;
+}
+
+table {
+  font-size: 12px;
+}
+
+.dropdown-menu {
+	padding: 3px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  background-color: #333;
+
+  margin: 100px auto;
+  -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+  animation: sk-rotateplane 1.2s infinite ease-in-out;
+}
+
+@-webkit-keyframes sk-rotateplane {
+  0% { -webkit-transform: perspective(120px) }
+  50% { -webkit-transform: perspective(120px) rotateY(180deg) }
+  100% { -webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg) }
+}
+
+@keyframes sk-rotateplane {
+  0% { 
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg) 
+  } 50% { 
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg) 
+  } 100% { 
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+@-webkit-keyframes creating {
+  from { background-color: #ffffe6; }
+  to { background-color: inherit; }
+}
+@-moz-keyframes creating {
+  from { background-color: #ffffe6; }
+  to { background-color: inherit; }
+}
+@-o-keyframes creating {
+  from { background-color: #ffffe6; }
+  to { background-color: inherit; }
+}
+@keyframes creating {
+  from { background-color: #ffffe6; }
+  to { background-color: inherit; }
+}
+.creating {
+  -webkit-animation: creating 2s infinite; /* Safari 4+ */
+  -moz-animation:    creating 2s infinite; /* Fx 5+ */
+  -o-animation:      creating 2s infinite; /* Opera 12+ */
+  animation:         creating 2s infinite; /* IE 10+ */
+}
+
+@-webkit-keyframes deleting {
+  from { background-color: #ffe6e6; }
+  to { background-color: inherit; }
+}
+@-moz-keyframes deleting {
+  from { background-color: #ffe6e6; }
+  to { background-color: inherit; }
+}
+@-o-keyframes deleting {
+  from { background-color: #ffe6e6; }
+  to { background-color: inherit; }
+}
+@keyframes deleting {
+  from { background-color: #ffe6e6; }
+  to { background-color: inherit; }
+}
+.deleting {
+  -webkit-animation: deleting 2s infinite; /* Safari 4+ */
+  -moz-animation:    deleting 2s infinite; /* Fx 5+ */
+  -o-animation:      deleting 2s infinite; /* Opera 12+ */
+  animation:         deleting 2s infinite; /* IE 10+ */
+}
+
+.help-block {
+  color: red !important;
+  font-size: 12px;
+}
+
+.vertical-center {
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
+
+  display: flex;
+  align-items: center;
+}
+
+button {
+    outline: none !important;
+}
+
+.ok_blink {
+  animation: blinker 1s linear infinite;
+  color: green;
+}
+
+.danger_blink {
+  animation: blinker 1s linear infinite;
+  color: red;
+}
+
+@keyframes blinker {  
+  50% { opacity: .5; }
+}
+
+tr.warning {
+  background-color: #ffe621 !important;
+}
+
+
+.table-hover tbody tr:hover > td.warning {
+  background-color: #faf2cc !important;
+}
+
+
+.copy {
+  font-size:10px !important;
+  color: black;
+  background-color: transparent;
+}
+
+.glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -webkit-animation: spin2 .7s infinite linear;
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html ng-app="rce">
+  <head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Azure RCE </title>
+    <!-- styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="./css/main.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="./css/newage.css"/>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/1.1.0/toaster.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.4/nv.d3.min.css"/>
+    
+  </head>
+  <body ng-cloak>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container" ng-controller="LayoutController">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a ng-show="isLoggedIn" class="navbar" href="/#!/dashboard"><span class="glyphicon glyphicon-user"></span> {{user.email}}</a>
+        </div>
+        <div class=" navbar-collapse username" >
+          
+            
+       
+
+          
+            <div ng-show="isLoggedIn" class="btn-group">
+              <a  class=" navbar-brand btn btn-secondary dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span  class="glyphicon glyphicon-menu-hamburger"></span> MENU
+              </a>
+              <div style="background-color:#2b302b; padding:10px;" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                
+                <a style="color:white;" class="dropdown-item" href="/#!/dashboard">Dashboard</a><br>
+                <a style="color:#3da038;" class="dropdown-item" href="/#!/vmSelectDedicated">Create Interactive Job</a><br>
+                <a style="color:#3da038;" class="dropdown-item" href="/#!/batch/create">Create Batch Job</a><br>
+                <div class="dropdown-divider"></div>
+                <a style="color:yellow;" ng-show="isLoggedIn" href="/docs"> Documentation </a>
+                <a style="color:yellow;" class="dropdown-item" ng-show="admin" href="/#!/admin">Administration</a><br>
+                <a style="color:red;" ng-show="isLoggedIn" ng-click="logout()" type="submit"> Logout </a> 
+
+              </div>
+            </div>
+
+        </div>
+      </div>
+  </div>
+  <div class="container" style="margin-top:50px">
+    <!-- views -->
+    <div ng-view></div>
+  </div>
+   
+    <!-- scripts -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+
+    
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    
+    <script src="js/bundled.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angularjs-nvd3-directives/0.0.8/angularjs-nvd3-directives.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.8/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.4/nv.d3.js"></script>
+  </body>
+</html>

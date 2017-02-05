@@ -1,0 +1,27 @@
+
+<br>
+<br>
+<br>
+<br>
+<center>
+  <div class="animated fadeIn">
+  	<h1><strong>Azure RCE</strong><small>Prototype</small></h1>
+  	
+    <form action="/auth/windowslive">
+  		<button class="btn btn-xl btn-primary" type="submit"> &nbsp &nbsp &nbsp  microsoft sign in &nbsp &nbsp &nbsp</button> 
+  	</form>
+
+    <form action="/auth/cas">
+      <button class="btn btn-xl btn-danger" type="submit"> &nbsp &nbsp &nbsp &nbsp CAS sign in &nbsp &nbsp &nbsp &nbsp</button> 
+    </form>
+  	<button class="btn btn-xl btn-outline" ng-click="invite(showInvite)">request an invite</button>
+  	<form class="animated fadeIn" action="mailto:youremail@yourdomain.com" ng-show="showInvite">
+  	<br>
+  		<div style = "width:300px">
+  			<input placeholder="... enter your microsoft email" class="form-control"> <br>
+  			<button class="btn btn-sm" type="submit" value="request">request</button>
+  		</div>
+  	</form>
+  </div>
+ </center>
+  

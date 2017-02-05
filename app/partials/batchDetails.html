@@ -1,0 +1,86 @@
+<h2>Batch Job Details</h2>
+<div class="form-group row">
+  <label class="col-sm-2 col-form-label">Name</label>
+  <div class="col-sm-10">{{batch.name}}</div>
+</div>
+<div class="form-group row">
+  <label class="col-sm-2 col-form-label">Max task retry count</label>
+  <div class="col-sm-10">{{batch.maxretry}}</div>
+</div>
+<h3>Job Status</h3>
+<div class="form-group row">
+  <label class="col-sm-2 col-form-label">Procesing Status</label>
+  <div class="col-sm-10"><span ng-show="batch.status!=='terminating'" class="label" ng-class="[
+	  {'label-success': batch.status==='completed'},
+	  {'label-danger': batch.status==='terminating'},
+	  {'label-primary': batch.status==='active'},
+	  {'label-warning': batch.status==='notfound'},
+	  {'label-info': batch.status==='enabling'},
+    {'label-info': batch.status==='pending'}]">{{batch.status}}</span>
+    <span class="label label-info" ng-show="batch.status==='terminating'">finishing</span>
+
+    </div>
+</div>
+<div class="form-group row">
+  <label class="col-sm-2 col-form-label">Created</label>
+  <div class="col-sm-10"><time>{{ batch.created | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}</time></div>
+</div>
+<div class="form-group row">
+  <label class="col-sm-2 col-form-label">Last Updated</label>
+  <div class="col-sm-10">
+    <time>{{ batch.lastModified | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}</time>
+	  <div ng-show="!batch.lastModified"><i>Not known</i></div>
+  </div>
+</div>
+<div class="form-group row">
+  <label class="col-sm-2 col-form-label">Ended</label>
+  <div class="col-sm-10">
+	  <time ng-show="batch.batchEnd">{{ batch.batchEnd | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}</time>
+	  <div ng-show="!batch.batchEnd"><i>Not Complete</i></div>
+  </div>
+</div>
+<h3>Tasks</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Task Id</th>
+      <th>Task Name</th>
+	  <th>Status</th>
+	  <th>Exit Code</th>
+      <th>Command</th>
+      <th>Max Time</th>
+      <th>Max Retry Count</th>
+      <th>Output Path(Azure files)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="task in batch.tasks"
+        ng-show="batch.tasks.length > 0">
+      <td>{{task.id}}</td>
+      <td>{{task.name}}</td>
+	  <td><span class="label" ng-class="[
+	  {'label-success': task.status==='completed'},
+	  {'label-danger': task.status==='running'},
+	  {'label-primary': task.status==='active'},
+	  {'label-info': task.status==='preparing'}]">{{task.status}}</span></td>
+	  <td>{{task.executionInfo.exitCode}}<div ng-show="task.errorMessage"><code>{{task.errorMessage}}</code><div></td>
+      <td>
+        <code>{{task.command}}</code>
+      </td>
+      <td>{{task.maxExecTime}}</td>
+      <td>{{task.maxTaskRetryCount}}</td>
+      <td ng-show="task.url !=='' && task.url !== undefined">//users/{{batch.user}}/{{task.url.split('/')[4]}}/{{task.url.split('/')[5]}}</td>
+    </tr>
+    <tr ng-show="batch.tasks.length === 0">
+      <td colspan="6">No Tasks</td>
+    </tr>
+  </tbody>
+</table>
+<div ng-show="batch.outputFileUrl">
+	<h3>Output</h3>
+	<a href ng-href="batch.outputFileUrl">{{batch.outputFileUrl}}</a>
+</div>
+</br>
+  <div class="well">
+    <button type="button" class="btn btn-lg btn-default" ng-click="cancel()">Dashboard</button>
+  </div>

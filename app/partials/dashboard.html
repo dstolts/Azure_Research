@@ -1,0 +1,122 @@
+﻿<div class="row">
+    <div class="page-header primary container">
+        <h2 >DASHBOARD</h2>
+        <h4 ><small>manage your interactive and batch jobs</small></h4>
+    </div>
+    
+    <div ng-show="loading">
+        <div class="spinner">
+        </div>
+    </div>
+    <toaster-container toaster-options="{'time-out': 8000, 'animation-class': 'toast-top-left'}"></toaster-container>
+    <div id="interactive" ng-show="!loading" class="container">
+        <h3>Interactive Jobs <button type="button" style="float: right" class="btn btn-outline btn-sm" ng-click="navToVmSelectDedicated()">Create Interactive Job</button></h3>
+        <center>
+            <div ng-show='vms.length === 0'>No interactive jobs exist...</div>
+         </center>
+        <!--<button class="btn btn-sm btn-success  pull-right" ng-click="refreshVM()">Refresh</button>-->
+        <table ng-show = 'vms.length > 0' class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name<br><small>OS / Size</small></th>
+                    <th>IP / DNS</th>
+                    <th>Status </th>
+                    <th>Idle</th>
+                    <th>Date Created</th>
+                    <th>Refresh Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="vm in vms" ng-class="{'success': vm.properties.provisioningState ==='Running', 'warning': vm.properties.provisioningState === 'Provisioning' || vm.properties.provisioningState === 'Creating', 'danger': vm.properties.provisioningState === 'Deleting'}">
+                    <!-- Name OS/Size -->
+                    <td class="vert-align">
+                        <div>
+                            <a ng-hide="vm.type==='Shared'" style="color: black" ng-click="navToVM(vm.id)"><strong>{{vm.properties.parameters.customVmName.value.split("-")[2]}}</strong></a>
+                            <a ng-show="vm.type==='Shared'" style="color: black" ng-click="navToVM(vm.id)"><strong>{{vm.name}}</strong></a>
+                        </div>   
+                        <small ng-hide="vm.type==='Shared'" class="text-muted">{{vm.properties.osType}} / {{vm.properties.parameters.vmSize.value}}</small>
+                    </td>
+
+                    <!-- IP and DNS -->
+                    <td ng-hide="vm.type==='Shared'" class="vert-align">
+                        <span ng-show="vm.properties.publicIPAddress !== 'Unavailable'">{{vm.properties.publicIPAddress}} <button class="copy btn btn-xs" ngclipboard data-clipboard-text="{{vm.properties.publicIPAddress}}"><span class="glyphicon glyphicon-copy"></span></button> / {{vm.properties.parameters.customVmName.value}}.westus.cloudapp.azure.com <button class="copy btn btn-xs" ngclipboard data-clipboard-text="{{vm.properties.parameters.customVmName.value}}.westus.cloudapp.azure.com"><span class="glyphicon glyphicon-copy"></span></button></span>
+                        <span ng-show="vm.properties.publicIPAddress === 'Unavailable'">Unavailable</span>
+                    </td>
+                    <td ng-show="vm.type==='Shared'"> {{vm.ipAddress}}:{{vm.port}} </td>
+
+                    <!-- provisioning state -->
+                    <td ng-hide="vm.type==='Shared'" class="vert-align">
+                        <span>{{vm.properties.provisioningState}}</span>
+                    </td>
+					<td ng-show="vm.type==='Shared'" class="vert-align">
+                        <span>{{vm.status}}</span>
+                    </td>
+
+                    <!-- cpu % -->
+                    <td class="vert-align"><span>{{vm.isIdle}}</span></td>
+
+                    <!-- date created -->
+                    <td ng-hide="vm.type==='Shared'" class="vert-align">
+                        <time am-time-ago="vm.properties.dateCreated"></time>
+                    </td>
+					<td ng-show="vm.type==='Shared'" class="vert-align"><span>{{vm.dateCreated}}</span></td>
+                    <td class="vert-align">
+                        <button id="single-button" ng-hide="vm.properties.provisioningState === 'Deleting'" ng-click="refreshVM(vm.id, $index)" type="button" class="btn btn-link" uib-dropdown-toggle ng-disabled="disabled">
+                            <span ng-hide="vm.loading" class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+                            <span ng-show="vm.loading" class="glyphicon glyphicon-refresh glyphicon-refresh-animate" aria-hidden="true"></span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <br>
+    <div id="batch"  ng-show="!loading" class="container">
+        <h3>Batch Jobs <button style="float: right" class="btn btn-sm btn-outline" ng-click="addNew()" href="/#!dashboard">Create Batch Job</button></h3>
+        <center>
+            <div ng-show='tasks.length === 0'>You do not have any batch jobs...</div>
+         </center>
+
+        <!--<button class="btn btn-sm btn-success  pull-right" ng-click="refreshTask()">Refresh</button>-->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Refresh Details</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="alert" ng-repeat="task in tasks" ng-class="{'alert-success': task.status === 'Completed','alert-danger': task.status == 'Error', 'alert-warning': task.status !== 'Completed' && task.status !== 'Error'}">
+                    <td><a style="color: black" ng-click="navToBatch(task.id)">{{task.name || 'undefined'}}</a></td>
+                    <td><span class="label" ng-show="batch.status!=='terminating'" ng-class="[
+	  {'label-success': task.status==='completed'},
+	  {'label-danger': task.status==='terminating'},
+	  {'label-danger': task.status==='error'},
+	  {'label-primary': task.status==='active'},
+      {'label-warning': task.status==='notfound'},
+      {'label-primary': task.status==='pending'},
+	  {'label-info': task.status==='Not started' }]">{{task.status}}</span></td>
+      <span class="label label-info" ng-show="batch.status==='terminating'">finishing</span>
+                    <td>
+                        <time am-time-ago="task.created"></time>
+                    </td>
+                    <td class="vert-align">
+                        <button id="single-button" ng-hide="vm.properties.provisioningState === 'Deleting'" ng-click="refreshBatch(task.id, $index)" type="button" class="btn btn-link" uib-dropdown-toggle ng-disabled="disabled">
+                            <span ng-hide="task.loading" class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+                            <span ng-show="task.loading" class="glyphicon glyphicon-refresh glyphicon-refresh-animate" aria-hidden="true"></span>
+                        </button>
+                    </td>
+                    <td>
+                        <div type="button" class="btn btn-link">
+                            <span ng-click="deleteBatchJob(task)" class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>  
+</div>

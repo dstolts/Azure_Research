@@ -1,0 +1,12 @@
+node_modules/
+/dist
+app/bower_components/
+npm-debug.log
+.DS_Store
+typings
+_package
+app/js/bundled.js
+dist
+tmp/
+server/.env
+docs/

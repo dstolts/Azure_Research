@@ -1,0 +1,54 @@
+<toaster-container toaster-options="{'time-out': 8000, 'animation-class': 'toast-top-left'}"></toaster-container>
+<br>
+<form class="" ng-submit="inviteUser()" name="inviteForm" novalidate>
+Please enter the email address you would like to send and invite to. <br>
+   
+      <input class="form-control" type="email" name="email" ng-model="invite.email" required>
+    
+
+    <label>Admin:  </label> 
+      <input type="checkbox" name="admin" ng-model="invite.admin" required> <br>
+  
+  
+
+    <button class="btn btn-primary btn-large" type="submit"> Add User</button>
+</form>
+<br>
+
+<h4>List of Users</h4>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Admin</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="user in users">
+
+            <!-- Name OS/Size -->
+            <td class="vert-align">
+                {{user.email}}
+            </td>
+
+            <!-- IP and DNS -->
+            <td ng-show="user.admin"class="vert-align">
+               true
+            </td>
+
+            <td ng-show="!user.admin"class="vert-align">
+               false
+            </td>
+            <td>
+              <div class="btn-group">
+                  <span ng-click="deleteUser(user)" class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+              </div>
+            </td>
+
+            <!-- cpu % -->
+            
+        </tr>
+    </tbody>
+</table>
+  

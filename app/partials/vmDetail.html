@@ -1,0 +1,86 @@
+<div ng-show="loading">
+    <div class="spinner"></div>
+</div>
+<div ng-show="!loading">
+  <h2>Interactive Job Details</h2>
+  <table width="100%">
+      <tbody>
+        <tr>
+          <td>
+            <label>Name:</label> {{vm.properties.parameters.customVmName.value}}
+          </td>
+          <td>
+          <span ng-class="{'ok_blink': vm.properties.provisioningState === 'Provisioning' || vm.properties.provisioningState === 'Creating' || vm.properties.provisioningState === 'Running', 'danger_blink': vm.properties.provisioningState === 'Deleting'}"> <label>Status:</label> {{vm.properties.provisioningState}}, <time class="blink_me" am-time-ago="vm.history[vm.history.length-1].date"></time> </span>
+          </td>
+          <td>
+            {{vm.properties.timeUp}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>Type:</label> {{vm.type}}
+          </td>
+          <td>
+            <label>CPU:</label> {{vm.CPU}} %  <label>Idle:</label> <span ng-show="isIdle">true</span>
+            <span ng-hide="isIdle">false</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+           <label> OS: </label> {{vm.properties.osType}} 
+          </td>
+          <td>
+            <label>IP Address: </label> <span>{{vm.properties.publicIPAddress}} <button class="copy btn btn-xs" ngclipboard data-clipboard-text="{{vm.properties.publicIPAddress}}"><span class="glyphicon glyphicon-copy"></span></button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+           <label> Size: </label> {{vm.properties.parameters.vmSize.value}}
+          </td>
+          <td>
+            <label>DNS Address: </label> <span ng-hide="vm.properties.publicIPAddress === 'Unavailable'">{{vm.properties.parameters.customVmName.value}}.westus.cloudapp.azure.com</span> <span ng-show="vm.properties.publicIPAddress === 'Unavailable'">Unavailable</span>
+          </td>
+        </tr>
+      </tbody>
+  </table>
+  
+  	<h2>Job History</h2>
+  	<table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Status</th>
+          <th>User</th>
+    	  <th>Date Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="task in vm.history"
+            ng-show="vm.history.length > 0">
+          <td>{{task.action}}</td>
+          <td>{{task.owner}}</td>
+          <td>{{task.date}}</td>
+        <tr ng-show="history.length === 0">
+          <td colspan="3">No History</td>
+        </tr>
+      </tbody>
+    </table>
+  	</br>
+    <div>
+      <button type="button" ng-show="vm.properties.provisioningState === 'Running' || vm.properties.provisioningState === 'Failed'" class="btn btn-lg btn-default btn-danger" ng-click="releaseVMDedicated()">Destroy</button>
+      <button type="button" class="btn btn-lg btn-default" ng-click="cancel()">Dashboard</button>
+      <button type="button" ng-show="vm.properties.provisioningState === 'DELETED'" class="btn btn-lg btn-default btn-danger" ng-click="deleteVM()">Delete</button>
+    </div>
+</div>
+<br>
+
+<h4>CPU % History</h4>
+<div class ='ok_blink' ng-show="!loadingMetrics">
+
+    <center class="blink_me">
+      getting CPU history ...
+    </center>
+</div>
+<div ng-show="!loadingMetrics">
+  <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-series="series" chart-options="options" chart-dataset-override="datasetOverride" chart-click="onClick" chart-colors="">
+  </canvas> 
+</div>

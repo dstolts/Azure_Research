@@ -1,0 +1,27 @@
+{
+  "customVmName": {
+    "value": "rcevmtest"
+  },
+  "userImageStorageAccountName": {
+    "value": "rcedemo"
+  },
+  "adminUsername": {
+    "value": "username"
+  },
+  "adminPassword": {
+    "value": "password"
+  },
+  "osDiskVhdUri": {
+    "value": "https://your-storage-account-here.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/customImage-osDisk.90d02a4f-25c5-4888-b37e-497da37a867a.vhd"
+  },
+  "dnsLabelPrefix": {
+    "value": "rcedemo"
+  },
+  "osType": {
+    "value": "Linux"
+  },
+  "vmSize": {
+    "value": "Standard_A0"
+  },
+
+}

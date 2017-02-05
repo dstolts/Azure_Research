@@ -1,0 +1,24 @@
+﻿
+<div class="row">
+  <h4><b>POOL</b></h4>
+  <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Availablity</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="vmSet in vmSets">
+          <td>{{vmSet.Name}}</td>
+          <td>{{vmSet.Type}}</td>
+          <td>{{vmSet.Instances}}</td>
+          <td>
+            <input type="button" class="btn btn-primary pull-right" value="Connect" ng-click="connectVM(vmSet.Name)" />
+          </td>
+        </tr>
+      </tbody>
+  </table>
+</div>

@@ -1,0 +1,96 @@
+
+<div class="row">
+  <div ng-show="loading">
+    <div class="spinner">
+    </div>
+  </div>
+   <toaster-container toaster-options="{'time-out': 8000, 'animation-class': 'toast-top-left'}"></toaster-container>
+  <form ng-show="!loading" ng-submit="createVM(vm.template, parameters)" name="vmForm" novalidate>
+  <div class="page-header primary container">
+      <h2 >Start Interactive Job <a class="btn" style="float:right" ng-click="navToVmSelectPool()">Start Job on available machine</a></h2>
+    
+  </div>
+    
+
+    Select the type of job you want to run...
+
+    <div id="image" class="form-group" >
+      <ng-form name="imageForm">
+        <select name="template" ng-change="showParameters(vm.template)" ng-options="template as template for template in templates" ng-model="vm.template" class="form-control" required>
+          <option class="form-control" value="">--choose an image--</option>
+        </select>
+          <p ng-show="imageForm.template.$invalid && !imageForm.template.$pristine" class="help-block">you must select an image.</p>
+        </ng-form>
+      </ng-form>
+    </div>
+
+    <div class="form-group" id="enterName" ng-repeat='parameter in parameters'>
+      <ng-form name="inputForm">
+        <div ng-show="parameter.type === 'adminPassword'"  class="input-group" >
+          
+            <label for="basic-url">Enter a password</label>
+            <input ng-pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/" name="password" ng-model="parameter.userInput" type="password" class="form-control" required>
+            <p ng-show="inputForm.password.$invalid && !inputForm.password.$pristine &&!inputForm.password.$error.pattern" class="help-block">you must enter a password.</p>
+            <p ng-show="inputForm.password.$error.pattern && !inputForm.password.$pristine" class="help-block">Your password must be at least 8 characters in length and contain at least 1 lowercase letter, 1 uppercase letter, one numerical character, AND one special character.</p>
+        </div>
+
+        <div ng-show="parameter.type === 'customVmName'"  class="input-group" >
+
+            <label for="basic-url">Enter a Job Name</label>
+            <input ng-pattern="/^(?=.*[a-z])[a-z0-9]{4,20}$/" name="vmname" ng-model="parameter.userInput" type="text" class="form-control" ng-required = "true" required>
+            <p ng-show="inputForm.vmname.$invalid && !inputForm.vmname.$pristine && !inputForm.vmname.$error.pattern" class="help-block">A job name is required.</p>
+            <p ng-show="inputForm.vmname.$error.pattern" class="help-block">Job name must be in all lowercase letters.</p>
+
+        </div>
+
+        <div ng-show="parameter.type === 'adminUserName'"  class="input-group">
+        
+            <label for="basic-url">Create a Username</label>
+            <input ng-pattern="/^[a-z0-9]+$/i" name="username" ng-model="parameter.userInput" type="text" class="form-control" required>
+            <p ng-show="inputForm.username.$invalid && !inputForm.username.$pristine" class="help-block">a username is required.</p>
+            <p ng-show="inputForm.vmname.$error.pattern" class="help-block">username can only contain alphanumeric characters.</p>
+    
+
+        </div>
+    
+
+        <div ng-show="parameter.type === 'vmSize'" class="input-group">
+          
+            <label for="basic-url">Choose a size for your job</label><br>
+            
+            <select name="size" ng-options="size.name as
+              size.name + ': ' + 
+              size.numberOfCores + ' core / ' + 
+              size.memoryInMB/1000 + 'GB RAM / ' +
+              (size.resourceDiskSizeInMB/1000) + 'GB HD'
+              for size in sizes" ng-model="parameter.userInput" class="form-control" required>
+             <!--  <option class="form-control" value="size.name">{{size.numberOfCores}} / {{size.osDiskSizeInMB}} // {{size.memoryInMB
+}}</option> -->
+            </select>
+
+            
+      click <a target="blank" href="https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-sizes/">here</a> for a more detailed description of each size.
+            <p ng-show="inputForm.size.$invalid && !inputForm.size.$pristine" class="help-block">you must choose a vm size.</p>
+        </div>
+
+
+        <div ng-show="parameter.type !== 'adminPassword'" ng-hide="parameter.type === 'vmSize' || parameter.type === 'adminPassword' || parameter.type === 'customVmName' || parameter.type === 'userAccount' || parameter.type === 'adminUserName'" class="input-group">
+          
+            <label for="basic-url">{{parameter.type}}</label>
+            <input ng-model="parameter.userInput" type="text" class="form-control" id="basic-url">
+            
+          
+        </div>
+      </ng-form>
+    </div>
+
+
+
+  <div>
+    <button type="submit" class="btn btn-lg btn-primary">Create</button> <button type="button" class="btn btn-lg btn-default" ng-click="cancel()">Cancel</button>
+  </div>
+  </form>
+
+</div>
+
+   

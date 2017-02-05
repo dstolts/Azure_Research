@@ -1,0 +1,172 @@
+<div class="row">
+  <div ng-show="loading">
+    <div class="spinner">
+    </div>
+  </div>
+   <toaster-container toaster-options="{'time-out': 8000, 'animation-class': 'toast-top-left'}"></toaster-container>
+<form ng-show="!loading" >
+  <div class="page-header primary container">
+      <h2 >Create A Batch Job</h2>
+    
+  </div>
+
+  <div class="form-group">
+    <label for="name">Job Name</label>
+    <input type="text" class="form-control" id="name" placeholder="Name" ng-model="job.name" required>
+      <p ng-show="job.name.$error.required">Job name is required.</p>
+
+  </div>
+  <div class="form-group">
+    <label for="maxretry">Max task retry count</label>
+    <input type="number" class="form-control" id="maxretry" placeholder="Max task retry count" value="0" ng-model="job.maxretry">
+    <span id="help-maxretry" class="help-block">The maximum number of times each task may be retried. The Batch service retries a task if its exit code is nonzero.</br>
+      If the maximum retry count is 0, the Batch service does not retry the task.</br>
+      If the maximum retry count is -1, the Batch service retries the task without limit.</span>
+  </div>
+  <div class="form-group">
+    <label for="initTask">Initialzation Task</label>
+    <select class="form-control" name="initTask"  ng-model="job.initTask" id="initTask" required>
+          <option ng-repeat="item in predefinedTasks.initTasks" value="{{item.key}}">{{item.displayText}}</option>
+      </select>
+    <span id="help-initTask" class="help-block">Specify the task that runs before any tasks start</span>
+  </div>
+  <div class="form-group">
+    <label for="releaseTask">Release Task</label>
+    <select class="form-control" name="releaseTask"  ng-model="job.releaseTask" id="releaseTask" required>
+          <option ng-repeat="item in predefinedTasks.releaseTasks" value="{{item.key}}">{{item.displayText}}</option>
+      </select>
+    <span id="help-releaseTask" class="help-block">Specify the task that should run after all tasks are completed</span>
+  </div>
+  <h4>Tasks</h4>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Task Id</th>
+        <th>Task Name</th>
+        <th>Command</th>
+        <th>Max Time</th>
+        <th>Max Retry Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-show="job.tasks.length > 0" ng-repeat="task in job.tasks">
+        <td>{{task.id}}</td>
+        <td>{{task.name}}</td>
+        <td><code>{{task.command}}</code></td>
+        <td>{{task.maxExecTime}}</td>
+        <td>{{task.maxTaskRetryCount}}</td>
+        <td>
+            <button type="button" ng-click="removeTask(task.id)" class="btn btn-xs">
+              <span class="glyphicon glyphicon-trash"></span>&nbsp;
+            </button> 
+        </td>
+      </tr>
+      <tr ng-show="job.tasks.length === 0">
+        <td colspan="6">No Tasks</td>
+      </tr>
+    </tbody>
+  </table>
+  <div ng-show="!addTaskPanelVisible">
+    <button type="button" class="btn btn-primary" ng-click="showAddTaskPanel()">Add New Task</button> <button type="button" class="btn btn-default"
+      ng-click="resetTasks()">Reset Tasks</button> <span ng-show="job.tasks.length > 0">{{job.tasks.length}} Task<span ng-show="job.tasks.length > 1">s</span></span>
+  </div>
+  <div class="panel panel-default" ng-show="addTaskPanelVisible">
+    <div class="panel-heading">Add Task</div>
+    <div class="panel-body">
+      <div class="form-group">
+        <label for="taskName">Task Name</label>
+        <input type="text" class="form-control" id="taskName"  placeholder="Task Name" ng-model="taskName">
+      </div>
+      <div class="form-group">
+        <label for="taskCommand">Task Command</label>
+        <textarea class="form-control" id="taskCommand" placeholder="Task Copmmand" ng-model="taskCommand"></textarea>
+        <label><input type="checkbox" ng-model="runElevated" value="elevated"> Run as root</label>
+      </div>
+      <div class="form-group">
+        <label for="filePath">File Path</label>
+        <input type="text" class="form-control" id="filePath" placeholder="File Path" ng-model="filePath">
+        <span id="help-taskCommand" class="help-block">User file share is mapped for each task<br/>
+        If you have a file at \\users\{username}\ it can be referred as /mnt/userdrive <br/>
+        for e.g. Rscript /mnt/userdrive/sample.R
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="maxExecTime">Max Wall Clock Time</label>
+        <input type="number" class="form-control" id="maxExecTime" placeholder="Max wall clock time" ng-model="maxExecTime">
+        <span id="help-maxretry" class="help-block">Optional: No value indicates unlimited time.</span>
+      </div>
+      <div class="form-group">
+        <label for="maxTaskRetryCount">Max task retry count</label>
+        <input type="number" class="form-control" id="maxTaskRetryCount" value="0" placeholder="Max task retry count" ng-model="maxTaskRetryCount">
+        <span id="help-maxretry" class="help-block">The maximum number of times each task may be retried. The Batch service retries a task if its exit code is nonzero.</br>
+              If the maximum retry count is 0, the Batch service does not retry the task.</br>
+              If the maximum retry count is -1, the Batch service retries the task without limit.</span>
+      </div>
+      <div class="form-group">
+        <label for="repeatStart">Repeat Task</label>
+        <div class="help-block"><i>Adding {id} to any of the above task fields will be replaced with the numbers as defined by the start and count below</i></div>
+        <!-- <div class="form-group col-md-6">
+          <label for="repeatStart">Repeat Start</label>
+          <input type="number" class="form-control" id="repeatStart" placeholder="Start" ng-model="repeatStart">
+        </div> -->
+        <div class="form-group">
+          <label for="repeatCount">Repeat Count (# of instances)</label>
+          <input type="number" class="form-control" id="repeatCount" placeholder="Count" ng-model="repeatCount">
+        </div>
+      </div>
+      <button type="button" class="btn btn-primary" ng-click="addTask();resetAddTaskForm();hideAddTaskPanel();">Add Task</button> <button type="button" class="btn btn-default"
+        ng-click="resetAddTaskForm();hideAddTaskPanel();">Cancel</button>
+    </div>
+  </div>
+  <h2>Compute Resources</h2>
+    <div id="dedicated">
+      <div class="form-group">
+        <label for="osType">Operating System:</label>
+        <select class="form-control" ng-model="job.selectedOS" required ng-change="skus(job.selectedOS)" name="osType"  id="osType" required>
+          <option></option>
+          <option ng-repeat="item in osTypes" value="{{item.id}}">{{item.value}}</option>
+      </select>
+      </div>
+      <div class="form-group">
+        <label for="sku">SKU:</label>
+        <select class="form-control" name="sku"  ng-model="job.selectedSKU" id="sku" required>
+          <option></option>
+          <option ng-repeat="item in skuItems" value="{{item}}">{{item.offer}}-{{item.sku}}</option>
+      </select>
+      </div>
+      <div class="form-group">
+        <label for="instancesize"> Size:</label>
+        <select class="form-control" name="instancesize" ng-model=job.instanceSize id="instancesize" required>
+          <option value="Standard_D2">D2 Standard (2 cores, 7Gb)</option>
+          <option value="Standard_D3">D3 Standard (4 cores, 14Gb)</option>
+          <option value="Standard_D4">D4 Standard (8 cores, 28Gb)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="scaletype">Scale:</label>
+        <label class="radio-inline"><input type="radio"  name="scaletype" ng-model="job.scaletype" value="Fixed">Fixed</label>
+        <label class="radio-inline"><input type="radio" name="scaletype" ng-model="job.scaletype" value="AutoScale">Auto Scale</label>
+      </div>
+      <div id="fixed-scaletype" ng-show="job.scaletype=='Fixed'">
+        <div class="form-group">
+          <label for="name">Number of Nodes</label>
+          <input required type="number" class="form-control" value="1" ng-required="true" name="scaleTargetDedicated"  id="scaleTargetDedicated" placeholder="Number of Nodes" ng-model="job.scaleTargetDedicated">
+        </div>
+      </div>
+      <div id="fixed-scaletype" ng-show="job.scaletype=='AutoScale'">
+        <div class="form-group">
+          <label for="name">Auto Scale Evaluation Interval</label>
+          <input type="number" class="form-control" ng-required="true" name="autoscaleEvalInt" id="autoscaleEvalInt" placeholder="Auto Scale Evaluation Interval" ng-model="job.autoscaleEvalInt">
+        </div>
+        <div class="form-group">
+          <label for="name">Auto Scale Formula <a href="https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling/" target="_blank">Help</a></label>
+          <textarea class="form-control" ng-required="true" name="autoscaleFormula" id="autoscaleFormula" placeholder="Auto Scale Formula" ng-model="job.autoscaleFormula"></textarea>
+        </div>
+      </div>
+    </div>
+  <div class="well">
+    <button type="submit" class="btn btn-lg btn-primary" ng-click="addJob()">Create</button> <button type="button" class="btn btn-lg btn-default" ng-click="cancel()">Cancel</button>
+  </div>
+</form>
+</div>

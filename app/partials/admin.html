@@ -1,0 +1,199 @@
+<toaster-container toaster-options="{'time-out': 8000, 'animation-class': 'toast-top-left'}"></toaster-container>
+<div class="page-header container">
+        <h2>ADMINSTRATION</h2>
+        <h4><small>manage application preferences and jobs for all users</small></h4>
+    </div>
+
+
+<div ng-show="loading">
+    <div class="spinner">
+    </div>
+</div>
+
+
+ <div class="container" id="interactive" ng-show="!loading" class="">
+ <a style="float:right; margin:5px;" class="btn btn-xs btn-default" href="/#!/invite">user management</a><a style="float:right; margin:5px;" class="btn btn-xs btn-default" href="/#!/vmlimit">change job limit per user ({{vmlimit.limit}})</a> 
+
+        <h3>VM Management </h3>
+        <form>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+
+                <input type="text" class="form-control" placeholder="search ..." ng-model="searchVm">
+
+              </div>      
+            </div>
+          </form>
+        <center>
+            <div ng-show='vms.length === 0'>No interactive jobs exist..</div>
+         </center>
+        <table ng-show = 'vms.length > 0' class="table table-hover">
+            <thead>
+                <tr>
+                    <th>
+                         <a ng-click="sortType = 'vm.properties.parameters.customVmName.value'; sortReverse = !sortReverse">
+                             Name
+                             <span ng-show="sortType == 'vm.properties.parameters.customVmName.value' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                             <span ng-show="sortType == 'vm.properties.parameters.customVmName.value' && !sortReverse " class="glyphicon glyphicon-triangle-bottom"></span>
+                         </a>
+                    </th>
+                    <th>IP / DNS</th>
+                    <th>
+                         <a ng-click="sortType = 'properties.provisioningState'; sortReverse = !sortReverse">
+                             Status
+                             <span ng-show="sortType == 'properties.provisioningState'  && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                             <span ng-show="sortType == 'properties.provisioningState' && !sortReverse " class="glyphicon glyphicon-triangle-bottom"></span>
+                         </a>
+                    </th>
+                    <th>
+                        <a ng-click="sortType = 'vm.dateCreated'; sortReverse = !sortReverse">
+                            Date Created
+                            <span ng-show="sortType == 'vm.dateCreated' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                             <span ng-show="sortType == 'vm.dateCreated' && !sortReverse " class="glyphicon glyphicon-triangle-bottom"></span>
+                        </a>
+                    </th>
+                    <th>
+                        <a ng-click="sortType = 'vm.user'; sortReverse = !sortReverse">
+                            Owner
+                            <span ng-show="sortType == 'vm.user' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="sortType == 'vm.user' && !sortReverse " class="glyphicon glyphicon-triangle-bottom"></span>
+                        </a>
+                    </th>
+                    <th>Refresh Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="vm in vms | orderBy:sortType:sortReverse | filter:searchVm" ng-class="{'success': vm.properties.provisioningState ==='Running', 'warning': vm.properties.provisioningState === 'Provisioning' || vm.properties.provisioningState === 'Creating', 'danger': vm.properties.provisioningState === 'Deleting'}">
+
+                    <!-- Name OS/Size -->
+                    <td class="vert-align">
+                        <div>
+                            <a ng-hide="vm.type==='Shared'" style="color: black" ng-click="navToVM(vm.id)"><strong>{{vm.properties.parameters.customVmName.value.split("-")[2]}}</strong></a>
+                            <a ng-show="vm.type==='Shared'" style="color: black" ng-click="navToVM(vm.id)"><strong>{{vm.name}}</strong></a>
+                        </div>   
+                        <small ng-hide="vm.type==='Shared'" class="text-muted">{{vm.properties.osType}} / {{vm.properties.parameters.vmSize.value}}</small>
+                    </td>
+
+                    <!-- IP and DNS -->
+                    <td ng-hide="vm.type==='Shared'" class="vert-align">
+                        <span ng-show="vm.properties.publicIPAddress !== 'Unavailable'">{{vm.properties.publicIPAddress}} <button class="copy btn btn-xs" ngclipboard data-clipboard-text="{{vm.properties.publicIPAddress}}"><span class="glyphicon glyphicon-copy"></span></button><br> {{vm.properties.parameters.customVmName.value}}.westus.cloudapp.azure.com <button class="copy btn btn-xs" ngclipboard data-clipboard-text="{{vm.properties.parameters.customVmName.value}}.westus.cloudapp.azure.com"><span class="glyphicon glyphicon-copy"></span></button></span>
+                        <span ng-show="vm.properties.publicIPAddress === 'Unavailable'">Unavailable</span>
+                    </td>
+                    <td ng-show="vm.type==='Shared'"> {{vm.ipAddress}}:{{vm.port}} </td>
+
+                    <!-- provisioning state -->
+                    <td ng-hide="vm.type==='Shared'" class="vert-align">
+                        <span>{{vm.properties.provisioningState}}</span>
+                    </td>
+                    <td ng-show="vm.type==='Shared'" class="vert-align">
+                        <span>{{vm.status}}</span>
+                    </td>
+
+                    <!-- date created -->
+                    <td ng-hide="vm.type==='Shared'" class="vert-align">
+                        <time am-time-ago="vm.properties.dateCreated"></time>
+                    </td>
+                    <td ng-show="vm.type==='Shared'" class="vert-align"><span>{{vm.dateCreated}}</span></td>
+                    <td class="vert-align"><span>{{vm.user}}</span></td>
+                    <td class="vert-align">
+                        <div ng-show="vm.properties.provisioningState === 'DELETED'" type="button" class="btn btn-link">
+                            <span ng-click="deleteVM(vm)" class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </div>
+                        <div id="single-button" ng-hide="vm.properties.provisioningState === 'Deleting' || vm.properties.provisioningState === 'DELETED'" ng-click="refreshVM(vm.id, $index)" type="button" class="btn btn-link" uib-dropdown-toggle ng-disabled="disabled">
+                                    <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="batch"  ng-show="!loading" class="container">
+        <h3>Batch Management</h3>
+        <form>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+
+                <input type="text" class="form-control" placeholder="search ..." ng-model="searchBatch">
+
+              </div>      
+            </div>
+          </form>
+        <center>
+            <div ng-show='tasks.length === 0'>No batch jobs exist...</div>
+         </center>
+
+        <!--<button class="btn btn-sm btn-success  pull-right" ng-click="refreshTask()">Refresh</button>-->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        <a ng-click="sortType = 'batch.name'; sortReverse = !sortReverse">
+                             Name
+                             <span ng-show="sortType == 'batch.name' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                             <span ng-show="sortType == 'batch.name' && !sortReverse " class="glyphicon glyphicon-triangle-bottom"></span>
+                        </a>
+                    </th>
+                    <th>
+                        <a ng-click="sortType = 'task.status'; sortReverse = !sortReverse">
+                            Status
+                            <span ng-show="sortType == 'task.status'  && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="sortType == 'task.status' && !sortReverse " class="glyphicon glyphicon-triangle-bottom"></span>
+                        </a>    
+                    </th>
+                    <th>
+                        <a ng-click="sortType = 'task.created'; sortReverse = !sortReverse">
+                            Created
+                            <span ng-show="sortType == 'task.created' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                             <span ng-show="sortType == 'task.created' && !sortReverse " class="glyphicon glyphicon-triangle-bottom"></span>
+                        </a>
+                    </th>
+                    <th>
+                        <a ng-click="sortType = 'task.user'; sortReverse = !sortReverse">
+                            Owner
+                            <span ng-show="sortType == 'task.user' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="sortType == 'task.user' && !sortReverse " class="glyphicon glyphicon-triangle-bottom"></span>
+                        </a>
+                    </th>
+                    <th>Refresh Details</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="alert" ng-repeat="task in tasks | orderBy:sortType:sortReverse | filter:searchBatch " ng-class="{'alert-success': task.status === 'Completed','alert-danger': task.status == 'Error', 'alert-warning': task.status !== 'Completed' && task.status !== 'Error'}">
+                    <td><a style="color: black" ng-click="navToBatch(task.id)">{{task.name || 'undefined'}}</a></td>
+                    <td><span class="label" ng-show="batch.status!=='terminating'" ng-class="[
+      {'label-success': task.status==='completed'},
+      {'label-danger': task.status==='terminating'},
+      {'label-danger': task.status==='error'},
+      {'label-primary': task.status==='active'},
+      {'label-warning': task.status==='notfound'},
+      {'label-primary': task.status==='pending'},
+      {'label-info': task.status==='Not started' }]">{{task.status}}</span>
+      <span class="label label-info" ng-show="batch.status==='terminating'">finishing</span>
+                    </td>
+                    <td>
+                        <time am-time-ago="task.created"></time>
+                    </td>
+                    <td>
+                        {{task.user}}
+                    </td>
+                    <td class="vert-align">
+                        <button id="single-button" ng-click="refreshBatch(task.id, $index)" type="button" class="btn btn-link" uib-dropdown-toggle ng-disabled="disabled">
+                            <span ng-hide="task.loading" class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+                            <span ng-show="task.loading" class="glyphicon glyphicon-refresh glyphicon-refresh-animate" aria-hidden="true"></span>
+                        </button>
+                    </td>
+                    <td>
+                        <div type="button" class="btn btn-link">
+                            <span ng-click="deleteBatchJob(task)" class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>  
+</div>
+  

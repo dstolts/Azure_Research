@@ -1,0 +1,598 @@
+{
+  "id": "/subscriptions/fa321497-0b31-419c-b6dd-504debe3ab4d/providers/Microsoft.Compute",
+  "namespace": "Microsoft.Compute",
+  "registrationState": "Registered",
+  "resourceTypes": [
+    {
+      "resourceType": "availabilitySets",
+      "locations": [
+        "East US",
+        "East US 2",
+        "West US",
+        "Central US",
+        "North Central US",
+        "South Central US",
+        "North Europe",
+        "West Europe",
+        "East Asia",
+        "Southeast Asia",
+        "Japan East",
+        "Japan West",
+        "Australia East",
+        "Australia Southeast",
+        "Brazil South",
+        "Canada Central",
+        "Canada East",
+        "West US 2",
+        "West Central US",
+        "UK South",
+        "UK West"
+      ],
+      "aliases": [],
+      "apiVersions": [
+        "2016-03-30",
+        "2015-06-15",
+        "2015-05-01-preview"
+      ]
+    },
+    {
+      "resourceType": "virtualMachines",
+      "locations": [
+        "East US",
+        "East US 2",
+        "West US",
+        "Central US",
+        "North Central US",
+        "South Central US",
+        "North Europe",
+        "West Europe",
+        "East Asia",
+        "Southeast Asia",
+        "Japan East",
+        "Japan West",
+        "Australia East",
+        "Australia Southeast",
+        "Brazil South",
+        "Canada Central",
+        "Canada East",
+        "West US 2",
+        "West Central US",
+        "UK South",
+        "UK West"
+      ],
+      "aliases": [
+        {
+          "name": "Microsoft.Compute/virtualMachines/sku.name",
+          "paths": [
+            {
+              "path": "properties.hardwareProfile.vmSize",
+              "apiVersions": [
+                "2015-05-01-preview",
+                "2015-06-15",
+                "2016-03-30",
+                "2016-04-30-preview"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Microsoft.Compute/virtualMachines/imagePublisher",
+          "paths": [
+            {
+              "path": "properties.storageProfile.imageReference.publisher",
+              "apiVersions": [
+                "2015-05-01-preview",
+                "2015-06-15",
+                "2016-03-30",
+                "2016-04-30-preview"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Microsoft.Compute/virtualMachines/imageOffer",
+          "paths": [
+            {
+              "path": "properties.storageProfile.imageReference.offer",
+              "apiVersions": [
+                "2015-05-01-preview",
+                "2015-06-15",
+                "2016-03-30",
+                "2016-04-30-preview"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Microsoft.Compute/virtualMachines/imageSku",
+          "paths": [
+            {
+              "path": "properties.storageProfile.imageReference.sku",
+              "apiVersions": [
+                "2015-05-01-preview",
+                "2015-06-15",
+                "2016-03-30",
+                "2016-04-30-preview"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Microsoft.Compute/virtualMachines/imageVersion",
+          "paths": [
+            {
+              "path": "properties.storageProfile.imageReference.version",
+              "apiVersions": [
+                "2015-05-01-preview",
+                "2015-06-15",
+                "2016-03-30",
+                "2016-04-30-preview"
+              ]
+            }
+          ]
+        }
+      ],
+      "apiVersions": [
+        "2016-03-30",
+        "2015-06-15",
+        "2015-05-01-preview"
+      ]
+    },
+    {
+      "resourceType": "virtualMachines/extensions",
+      "locations": [
+        "East US",
+        "East US 2",
+        "West US",
+        "Central US",
+        "North Central US",
+        "South Central US",
+        "North Europe",
+        "West Europe",
+        "East Asia",
+        "Southeast Asia",
+        "Japan East",
+        "Japan West",
+        "Australia East",
+        "Australia Southeast",
+        "Brazil South",
+        "Canada Central",
+        "Canada East",
+        "West US 2",
+        "West Central US",
+        "UK South",
+        "UK West"
+      ],
+      "aliases": [],
+      "apiVersions": [
+        "2016-03-30",
+        "2015-06-15",
+        "2015-05-01-preview"
+      ]
+    },
+    {
+      "resourceType": "virtualMachineScaleSets",
+      "locations": [
+        "East US",
+        "East US 2",
+        "West US",
+        "Central US",
+        "North Central US",
+        "South Central US",
+        "North Europe",
+        "West Europe",
+        "East Asia",
+        "Southeast Asia",
+        "Japan East",
+        "Japan West",
+        "Australia East",
+        "Australia Southeast",
+        "Brazil South",
+        "Canada Central",
+        "Canada East",
+        "West US 2",
+        "West Central US",
+        "UK South",
+        "UK West"
+      ],
+      "aliases": [],
+      "apiVersions": [
+        "2016-03-30",
+        "2015-06-15",
+        "2015-05-01-preview"
+      ]
+    },
+    {
+      "resourceType": "virtualMachineScaleSets/extensions",
+      "locations": [
+        "East US",
+        "East US 2",
+        "West US",
+        "Central US",
+        "North Central US",
+        "South Central US",
+        "North Europe",
+        "West Europe",
+        "East Asia",
+        "Southeast Asia",
+        "Japan East",
+        "Japan West",
+        "Australia East",
+        "Australia Southeast",
+        "Brazil South",
+        "Canada Central",
+        "Canada East",
+        "West US 2",
+        "West Central US",
+        "UK South",
+        "UK West"
+      ],
+      "aliases": [],
+      "apiVersions": [
+        "2016-03-30",
+        "2015-06-15",
+        "2015-05-01-preview"
+      ]
+    },
+    {
+      "resourceType": "virtualMachineScaleSets/virtualMachines",
+      "locations": [
+        "East US",
+        "East US 2",
+        "West US",
+        "Central US",
+        "North Central US",
+        "South Central US",
+        "North Europe",
+        "West Europe",
+        "East Asia",
+        "Southeast Asia",
+        "Japan East",
+        "Japan West",
+        "Australia East",
+        "Australia Southeast",
+        "Brazil South",
+        "Canada Central",
+        "Canada East",
+        "West US 2",
+        "West Central US",
+        "UK South",
+        "UK West"
+      ],
+      "aliases": [],
+      "apiVersions": [
+        "2016-03-30",
+        "2015-06-15",
+        "2015-05-01-preview"
+      ]
+    },
+    {
+      "resourceType": "virtualMachineScaleSets/networkInterfaces",
+      "locations": [
+        "East US",
+        "East US 2",
+        "West US",
+        "Central US",
+        "North Central US",
+        "South Central US",
+        "North Europe",
+        "West Europe",
+        "East Asia",
+        "Southeast Asia",
+        "Japan East",
+        "Japan West",
+        "Australia East",
+        "Australia Southeast",
+        "Brazil South",
+        "Canada Central",
+        "Canada East",
+        "West US 2",
+        "West Central US",
+        "UK South",
+        "UK West"
+      ],
+      "aliases": [],
+      "apiVersions": [
+        "2016-03-30",
+        "2015-06-15",
+        "2015-05-01-preview"
+      ]
+    },
+    {
+      "resourceType": "virtualMachineScaleSets/virtualMachines/networkInterfaces",
+      "locations": [
+        "East US",
+        "East US 2",
+        "West US",
+        "Central US",
+        "North Central US",
+        "South Central US",
+        "North Europe",
+        "West Europe",
+        "East Asia",
+        "Southeast Asia",
+        "Japan East",
+        "Japan West",
+        "Australia East",
+        "Australia Southeast",
+        "Brazil South",
+        "Canada Central",
+        "Canada East",
+        "West US 2",
+        "West Central US",
+        "UK South",
+        "UK West"
+      ],
+      "aliases": [],
+      "apiVersions": [
+        "2016-03-30",
+        "2015-06-15",
+        "2015-05-01-preview"
+      ]
+    },
+    {
+      "resourceType": "locations",
+      "locations": [],
+      "aliases": [],
+      "apiVersions": [
+        "2016-04-30-preview",
+        "2016-03-30",
+        "2015-06-15",
+        "2015-05-01-preview"
+      ]
+    },
+    {
+      "resourceType": "locations/operations",
+      "locations": [
+        "East US",
+        "East US 2",
+        "West US",
+        "Central US",
+        "North Central US",
+        "South Central US",
+        "North Europe",
+        "West Europe",
+        "East Asia",
+        "Southeast Asia",
+        "Japan East",
+        "Japan West",
+        "Australia East",
+        "Australia Southeast",
+        "Brazil South",
+        "Canada Central",
+        "Canada East",
+        "West US 2",
+        "West Central US",
+        "UK South",
+        "UK West"
+      ],
+      "aliases": [],
+      "apiVersions": [
+        "2016-03-30",
+        "2015-06-15",
+        "2015-05-01-preview"
+      ]
+    },
+    {
+      "resourceType": "locations/vmSizes",
+      "locations": [
+        "East US",
+        "East US 2",
+        "West US",
+        "Central US",
+        "North Central US",
+        "South Central US",
+        "North Europe",
+        "West Europe",
+        "East Asia",
+        "Southeast Asia",
+        "Japan East",
+        "Japan West",
+        "Australia East",
+        "Australia Southeast",
+        "Brazil South",
+        "Canada Central",
+        "Canada East",
+        "West US 2",
+        "West Central US",
+        "UK South",
+        "UK West"
+      ],
+      "aliases": [],
+      "apiVersions": [
+        "2016-03-30",
+        "2015-06-15",
+        "2015-05-01-preview"
+      ]
+    },
+    {
+      "resourceType": "locations/usages",
+      "locations": [
+        "East US",
+        "East US 2",
+        "West US",
+        "Central US",
+        "North Central US",
+        "South Central US",
+        "North Europe",
+        "West Europe",
+        "East Asia",
+        "Southeast Asia",
+        "Japan East",
+        "Japan West",
+        "Australia East",
+        "Australia Southeast",
+        "Brazil South",
+        "Canada Central",
+        "Canada East",
+        "West US 2",
+        "West Central US",
+        "UK South",
+        "UK West"
+      ],
+      "aliases": [],
+      "apiVersions": [
+        "2016-03-30",
+        "2015-06-15",
+        "2015-05-01-preview"
+      ]
+    },
+    {
+      "resourceType": "locations/publishers",
+      "locations": [
+        "East US",
+        "East US 2",
+        "West US",
+        "Central US",
+        "North Central US",
+        "South Central US",
+        "North Europe",
+        "West Europe",
+        "East Asia",
+        "Southeast Asia",
+        "Japan East",
+        "Japan West",
+        "Australia East",
+        "Australia Southeast",
+        "Brazil South",
+        "Canada Central",
+        "Canada East",
+        "West US 2",
+        "West Central US",
+        "UK South",
+        "UK West"
+      ],
+      "aliases": [],
+      "apiVersions": [
+        "2016-03-30",
+        "2015-06-15",
+        "2015-05-01-preview"
+      ]
+    },
+    {
+      "resourceType": "operations",
+      "locations": [
+        "East US",
+        "East US 2",
+        "West US",
+        "Central US",
+        "North Central US",
+        "South Central US",
+        "North Europe",
+        "West Europe",
+        "East Asia",
+        "Southeast Asia",
+        "Japan East",
+        "Japan West",
+        "Australia East",
+        "Australia Southeast",
+        "Brazil South",
+        "Canada Central",
+        "Canada East",
+        "West US 2",
+        "West Central US",
+        "UK South",
+        "UK West"
+      ],
+      "aliases": [],
+      "apiVersions": [
+        "2016-03-30",
+        "2015-06-15",
+        "2015-05-01-preview"
+      ]
+    },
+    {
+      "resourceType": "disks",
+      "locations": [
+        "Southeast Asia",
+        "East US 2"
+      ],
+      "aliases": [],
+      "apiVersions": [
+        "2016-04-30-preview"
+      ]
+    },
+    {
+      "resourceType": "snapshots",
+      "locations": [
+        "Southeast Asia",
+        "East US 2"
+      ],
+      "aliases": [],
+      "apiVersions": [
+        "2016-04-30-preview"
+      ]
+    },
+    {
+      "resourceType": "locations/diskoperations",
+      "locations": [
+        "Southeast Asia",
+        "East US 2"
+      ],
+      "aliases": [],
+      "apiVersions": [
+        "2016-04-30-preview"
+      ]
+    },
+    {
+      "resourceType": "virtualMachines/diagnosticSettings",
+      "locations": [
+        "East US",
+        "East US 2",
+        "West US",
+        "Central US",
+        "North Central US",
+        "South Central US",
+        "North Europe",
+        "West Europe",
+        "East Asia",
+        "Southeast Asia",
+        "Japan East",
+        "Japan West",
+        "Australia East",
+        "Australia Southeast",
+        "Brazil South",
+        "Canada Central",
+        "Canada East",
+        "West US 2",
+        "West Central US",
+        "UK South",
+        "UK West"
+      ],
+      "aliases": [],
+      "apiVersions": [
+        "2014-04-01"
+      ]
+    },
+    {
+      "resourceType": "virtualMachines/metricDefinitions",
+      "locations": [
+        "East US",
+        "East US 2",
+        "West US",
+        "Central US",
+        "North Central US",
+        "South Central US",
+        "North Europe",
+        "West Europe",
+        "East Asia",
+        "Southeast Asia",
+        "Japan East",
+        "Japan West",
+        "Australia East",
+        "Australia Southeast",
+        "Brazil South",
+        "Canada Central",
+        "Canada East",
+        "West US 2",
+        "West Central US",
+        "UK South",
+        "UK West"
+      ],
+      "aliases": [],
+      "apiVersions": [
+        "2014-04-01"
+      ]
+    }
+  ]
+}
